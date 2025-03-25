@@ -8,8 +8,8 @@ int minPosition = -999 * 4;
 int maxPosition = 999 * 4;
 
 // Pins definitions for TM1637 and can be changed to other ports
-const int CLK = D1;
-const int DIO = D2;
+const int CLK = D3;
+const int DIO = D4;
 TM1637 tm1637(CLK, DIO);
 
 void setup() {
