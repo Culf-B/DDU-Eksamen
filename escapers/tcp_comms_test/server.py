@@ -6,9 +6,6 @@ def handle_client(client_socket):
         data = client_socket.recv(64).decode()
         if not data:
             break
-        print('Received from client: ' + data)
-        message = input(" -> ")  # take input from server
-        client_socket.send(message.encode())  # send message
     client_socket.close()
 
 def server_program():
