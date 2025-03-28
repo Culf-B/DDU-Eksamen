@@ -4,17 +4,30 @@ import time
 # Initialize I2C bus
 bus = smbus2.SMBus(1)
 
+
 # I2C address of the Wemos D1 Mini
 address = 0x08
 
-try:
-    # Write a test byte to the Wemos D1 Mini
-    bus.write_byte(address, 0x01)
-    time.sleep(0.1)
 
-    # Read the byte back from the Wemos D1 Mini
-    data = bus.read_byte(address)
-    print(f"Received data: {data}")
+def send_string(data):
+    dataToSend = []
+    for c in data:
+        dataToSend.append(ord(c))
 
-except Exception as e:
-    print(f"Error: {e}")
+    bus.write_block_data(address, 0, dataToSend)
+
+def receive_string():
+    data = bus.read_i2c_block_data(address, 0, 8)
+    return data
+
+# Example usage
+
+# Send a test string to the Wemos D1 Mini
+send_string("test")
+time.sleep(0.2)
+
+# Receive the string back from the Wemos D1 Mini
+received_data = receive_string()
+print(f"Received data: {received_data}")
+
+bus.close()
