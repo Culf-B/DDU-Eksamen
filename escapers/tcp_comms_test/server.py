@@ -4,6 +4,7 @@ import threading
 def handle_client(client_socket):
     while True:
         data = client_socket.recv(64).decode()
+        print(data)
         if not data:
             break
     client_socket.close()
