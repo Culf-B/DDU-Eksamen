@@ -3,11 +3,13 @@
 #include <Encoder.h>
 #include <vector>
 
+#include "secrets.h"
+
 WiFiClient client;
 
-const char* ssid = "FP3";  // Replace with your WiFi SSID
-const char* password = "kage1234";  // Replace with your WiFi password
-const char* server_ip = "192.168.88.12";  // Replace with your server's IP address
+const char* ssid = SECRET_SSID;  // Replace with your WiFi SSID
+const char* password = SECRET_PASSWORD;  // Replace with your WiFi password
+const char* server_ip = "10.42.0.1";  // Replace with your server's IP address
 const int server_port = 5000;
 
 Encoder myEnc(D5, D6);
