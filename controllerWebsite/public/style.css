@@ -1,0 +1,106 @@
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #999;
+    color: #333;
+}
+
+header {
+    background-color: #312f37;
+    color: #ffffff;
+    padding: 20px;
+    text-align: center;
+    height: 7vh;
+}
+
+h1 {
+    margin: 0;
+    font-size: 2.5em;
+}
+
+main {
+    display: flex;
+    padding: 20px;
+    height: 80vh; /* Sætter højden til 80% af skærmens højde */
+    position: relative;
+}
+
+.scrollable-box {
+    width: 300px;
+    height: 100%;
+    overflow-y: auto;
+    background-color: #312f37;
+    border: 1px solid #444444;
+    border-radius: 5px;
+    margin-right: 20px;
+    padding: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    box-sizing: border-box; /* Inkluderer padding og border i højden */
+}
+
+.scrollable-box::-webkit-scrollbar {
+    width: 12px;
+}
+
+.scrollable-box::-webkit-scrollbar-track {
+    background: #f1f1f1;
+    border-radius: 10px;
+}
+
+.scrollable-box::-webkit-scrollbar-thumb {
+    background: #888;
+    border-radius: 10px;
+    border: 3px solid #f1f1f1;
+}
+
+.scrollable-box::-webkit-scrollbar-thumb:hover {
+    background: #555;
+}
+
+/* Firefox scrollbar styling */
+.scrollable-box {
+    scrollbar-width: thin;
+    scrollbar-color: #888 #f1f1f1;
+}
+
+.scrollable-box ul {
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+}
+
+.scrollable-box li {
+    margin: 10px 0;
+}
+
+.scrollable-box a {
+    color: #FFFFFF;
+    text-decoration: none;
+    display: block;
+    padding: 10px;
+    border-radius: 5px;
+    transition: background-color 0.3s;
+    background: #4CAF50;
+}
+
+.scrollable-box a:hover {
+    background-color: #39843b;
+}
+
+.content-box {
+    flex: 1;
+    background-color: #312f37;
+    color: #FFFFFF;
+    border: 1px solid #444444;
+    border-radius: 5px;
+    padding: 20px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    overflow-y: auto;
+    height: 100%;
+    box-sizing: border-box; /* Inkluderer padding og border i højden */
+}
+
+.content-box p {
+    margin: 10px 0;
+}
