@@ -9,15 +9,51 @@
 <body>
     <header>
         <h1>Escapers - Kontrolpanel</h1>
+        <div class="header-connector"></div>
     </header>
     <main>
-        <div class="scrollable-box" data-simplebar>
-            <ul>
-                <li><a href="#">Puzzle controller 1</a></li>
-            </ul>
-        </div>
-        <div class="content-box">
-            <p>Content for puzzle controller 1</p>
+        
+        <div class = "container-box">
+            <div class="scrollable-box">
+                <h2>Opgaver</h2>
+                <ul">
+                    <li><a href="#" id="selected">Opgave 1: Den universelle inputmaskine</a></li>
+                </ul>
+                <div class = "selector-list">
+                    <ul style = "overflow-y: auto;">
+                        <li><a href="#">Opgave 2</a></li>
+                        <li><a href="#">Opgave 3</a></li>
+                        <li><a href="#">Opgave 4</a></li>
+                        <li><a href="#">Opgave 5</a></li>
+                        <li><a href="#">Opgave 6</a></li>
+                        <li><a href="#">Opgave 7</a></li>
+                        <li><a href="#">Opgave 8</a></li>
+                        <li><a href="#">Opgave 9</a></li>
+                        <li><a href="#">Opgave 10</a></li>
+                        <li><a href="#">Opgave 11</a></li>
+                        <li><a href="#">Opgave 12</a></li>
+
+                    </ul>
+                </div>
+            </div>
+            <div class="content-box">
+                <h2>
+                    Opgave 1: Den universelle inputmaskine
+                </h2>
+                <form class = "form">
+                    <h3>
+                        Generelle indstillinger
+                    </h3>
+                    <br>
+                    <label for="fname">Navn på opgaven: </label>
+                    <input type="text" id = "fname" value = "Den universelle inputmaskine">
+                    <br>
+                    <label for="fanswer">Korrekt svar: </label>
+                    <input type="text" id = "fanswer">
+                    <br>
+                    <input type="submit" value="Gem">
+                </form>
+            </div>
         </div>
     </main>
 </body>
