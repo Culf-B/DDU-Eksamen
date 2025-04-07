@@ -1,4 +1,5 @@
 const profileName = "default";
+let selectedTask;
 
 async function send_profile_request() {
     const url = `/api/profile/${profileName}`;
@@ -40,6 +41,31 @@ async function send_setting_catagory_request(catagoryName) {
     }
 }
 
+async function send_form(form) {
+    const formData = new FormData(form);
+    const formCatagory = form.getAttribute("data-catagory");
+    try {
+        const response = await fetch("/api/saveprofile", {
+            method: "POST",
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                "form": formData,
+                "catagory": formCatagory,
+                "task": selectedTask,
+                "profile": profileName
+            })
+        });
+        if (!response.ok) {
+            throw new Error(`Response status: ${response.status}`);
+        }
+    } catch (e) {
+        console.error(e);
+        alert("Der skete en fejl, indstillingerne blev ikke gemt! Prøv igen.");
+    }
+}
+
 async function main() {
     // Get profile
     let profile = await send_profile_request();
@@ -51,7 +77,6 @@ async function main() {
     const selectedHTMLElement = document.getElementById("selected");
     const unselectedHTMLList = document.getElementById("unselected-parent");
     let selectedIndex = selectedHTMLElement.getAttribute('data-index');
-    let selectedTask;
     for (i = 0; i < profile.tasks.length; i++) {
         if (profile.tasks[i].id.toString() == selectedIndex) {
             selectedTask = profile.tasks[i];
@@ -81,7 +106,16 @@ async function main() {
             settingsParent.innerHTML = settingsParent.innerHTML + htmlRecieved;
         }
     }
-    // Load values from profile
+    // Add event listeners to all settings forms on submit for custom submit event
+    const allForms = document.querySelectorAll('.form');
+    for (i = 0; i < allForms.length; i ++) {
+        allForms[i].addEventListener("submit", (event) => {
+            event.preventDefault();
+            send_form(event.target);
+        });
+    }
+
+    // Display loaded values from profile (displays current settings)
     for (const [setting, properties] of Object.entries(selectedTask.settings)) {
         for (const [property, content] of Object.entries(properties)) {
             console.log(content)
@@ -93,6 +127,7 @@ async function main() {
     }
 }
 
+// When page is initially loaded, load content from server
 document.addEventListener('DOMContentLoaded', async () => {
     await main()
 });
