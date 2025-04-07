@@ -147,6 +147,7 @@ main {
     display: block;
     margin-left: auto;
     margin-right: auto;
+    background-color: #defae2;
 }
 
 .form input[type="submit"] {
