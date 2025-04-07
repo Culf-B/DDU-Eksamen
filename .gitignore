@@ -3,3 +3,4 @@ arduino_code/Function_Input_Puzzle/secrets.h
 venv/
 *.pyc
 .DS_Store
+__pycache__
