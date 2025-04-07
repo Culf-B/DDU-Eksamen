@@ -1,5 +1,6 @@
 const profileName = "default";
 let selectedTask;
+let profile;
 
 async function send_profile_request() {
     const url = `/api/profile/${profileName}`;
@@ -42,7 +43,7 @@ async function send_setting_catagory_request(catagoryName) {
 }
 
 async function send_form(form) {
-    const formData = new FormData(form);
+    let formData = new FormData(form);
     const formCatagory = form.getAttribute("data-catagory");
     try {
         const response = await fetch("/api/saveprofile", {
@@ -51,37 +52,45 @@ async function send_form(form) {
                 'Content-Type': 'application/json'
             },
             body: JSON.stringify({
-                "form": formData,
+                "form": Object.fromEntries(formData),
                 "catagory": formCatagory,
-                "task": selectedTask,
+                "task": selectedTask.id,
                 "profile": profileName
             })
         });
         if (!response.ok) {
             throw new Error(`Response status: ${response.status}`);
+        } else {
+            if (formCatagory == "general") {
+                set_name_selected(profile.task_name_prefix + " " + selectedTask.id.toString() + ": " + Object.fromEntries(formData).name);
+            }
         }
     } catch (e) {
         console.error(e);
-        alert("Der skete en fejl, indstillingerne blev ikke gemt! Prøv igen.");
+        alert("Der skete en fejl, indstillingerne blev ikke gemt! Prøv igen. Fejlmeddelelse: " + e);
     }
+}
+
+function set_name_selected(nameWithPrefix) {
+    document.getElementById("selected").innerHTML = nameWithPrefix;
+    document.getElementById("selected-taskname-header").innerHTML = nameWithPrefix;
 }
 
 async function main() {
     // Get profile
-    let profile = await send_profile_request();
+    profile = await send_profile_request();
     if (profile == -1 || profile == {}) {
         alert("Fejl! Profilen kunne ikke indlæses!");
         return;
     }
     // Display selected and unselected elements
-    const selectedHTMLElement = document.getElementById("selected");
+    
     const unselectedHTMLList = document.getElementById("unselected-parent");
-    let selectedIndex = selectedHTMLElement.getAttribute('data-index');
+    let selectedIndex = document.getElementById("selected").getAttribute('data-index');
     for (i = 0; i < profile.tasks.length; i++) {
         if (profile.tasks[i].id.toString() == selectedIndex) {
             selectedTask = profile.tasks[i];
-            selectedHTMLElement.innerHTML = profile.task_name_prefix + " " + profile.tasks[i].id.toString() + ": " + selectedTask.settings.general.name.value;
-            document.getElementById("selected-taskname-header").innerHTML = selectedHTMLElement.innerHTML;
+            set_name_selected(profile.task_name_prefix + " " + profile.tasks[i].id.toString() + ": " + selectedTask.settings.general.name.value);
         } else {
             let li = document.createElement("li");
             let a = document.createElement("a");
@@ -118,7 +127,6 @@ async function main() {
     // Display loaded values from profile (displays current settings)
     for (const [setting, properties] of Object.entries(selectedTask.settings)) {
         for (const [property, content] of Object.entries(properties)) {
-            console.log(content)
             // Loading depends on type
             if (content.type == "text") {
                 document.getElementById(content.elementID).value = content.value;
