@@ -2,13 +2,32 @@
     "task_name_prefix": "Opgave",
     "tasks": [
         {
-            "index": 1,
             "id": 1,
-            "name": "Den universelle inputmaskine",
-            "options": {
-                "answerconditions": {
-                    "1": 0.85,
-                    "3": -1.20
+            "settings": {
+                "general": {
+                    "name": {
+                        "elementID": "fname",
+                        "type": "text",
+                        "value": "Den universelle inputmaskine"
+                    }
+                },
+                "inputmaskine": {
+                    "answerconditions": {
+                        "1": 0.85,
+                        "3": -1.20
+                    }
+                }
+            }
+        },
+        {
+            "id": 2,
+            "settings": {
+                "general": {
+                    "name": {
+                        "elementID": "fname",
+                        "type": "text",
+                        "value": "Test opgave 1"
+                    }
                 }
             }
         }

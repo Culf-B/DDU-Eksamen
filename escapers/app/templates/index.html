@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Escapers - Kontrolpanel</title>
     <link rel="stylesheet" href="{{css_url}}">
+    <script src="{{script_url}}"></script>
 </head>
 <body>
     <header>
@@ -17,42 +18,19 @@
             <div class="scrollable-box">
                 <h2>Opgaver</h2>
                 <ul>
-                    <li><a href="#" id="selected">Opgave 1: Den universelle inputmaskine</a></li>
+                    <li><a href="#" id="selected" data-index="{{selected_index}}">Indlæser...</a></li>
                 </ul>
                 <div class = "selector-list">
-                    <ul style = "overflow-y: auto;">
-                        <li><a href="#">Opgave 2</a></li>
-                        <li><a href="#">Opgave 3</a></li>
-                        <li><a href="#">Opgave 4</a></li>
-                        <li><a href="#">Opgave 5</a></li>
-                        <li><a href="#">Opgave 6</a></li>
-                        <li><a href="#">Opgave 7</a></li>
-                        <li><a href="#">Opgave 8</a></li>
-                        <li><a href="#">Opgave 9</a></li>
-                        <li><a href="#">Opgave 10</a></li>
-                        <li><a href="#">Opgave 11</a></li>
-                        <li><a href="#">Opgave 12</a></li>
-
+                    <ul style = "overflow-y: auto;" id = "unselected-parent">
                     </ul>
                 </div>
             </div>
             <div class="content-box">
-                <h2>
-                    Opgave 1: Den universelle inputmaskine
+                <h2 id = "selected-taskname-header">
+                    Indlæser...
                 </h2>
-                <form class = "form">
-                    <h3>
-                        Generelle indstillinger
-                    </h3>
-                    <br>
-                    <label for="fname">Navn på opgaven: </label>
-                    <input type="text" id = "fname" value = "Den universelle inputmaskine">
-                    <br>
-                    <label for="fanswer">Korrekt svar: </label>
-                    <input type="text" id = "fanswer">
-                    <br>
-                    <input type="submit" value="Gem">
-                </form>
+                <div id = "settings-parent" style = "display: flex">
+                </div>
             </div>
         </div>
     </main>
