@@ -93,6 +93,16 @@ def save_profile():
         else:
             return {'message': 'Fejl! Indstillinger ikke gemt!'}, 500
     
+@app.errorhandler(404)
+def page_not_found(e):
+    # note that we set the 404 status explicitly
+    return error_page("404: Siden blev ikke fundet"), 404
+
+def error_page(message):
+    css_url = url_for('static', filename = 'style_errorpage.css')
+    error_image_url = url_for('static', filename = 'error.png')
+    return render_template('error.html', css_url = css_url, error_image_url = error_image_url, error_message = message)
+
 
 if __name__ == '__main__':
     app.run(debug = True)
