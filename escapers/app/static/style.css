@@ -35,7 +35,7 @@ main {
 }
 
 .scrollable-box {
-    width: 300px;
+    width: 20%;
     height: 100%;
     overflow-y: hidden;
     background-color: #eeeeee;
@@ -88,29 +88,17 @@ main {
     overflow-y: scroll;
     direction: rtl;
     background-color: #eeeeee;
-
     scrollbar-color: #8e8e8e #d6d6d6;
-}
-
-.content-box {
     flex: 1;
-    background-color: #FFFFFF;
-    color: #000000;
-    /*border: 1px solid #888;*/
-    border-radius: 5px;
-    padding: 20px;
-    /*box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);*/
-    overflow-y: auto;
-    height: 100%;
-    box-sizing: border-box;
 }
 
 .container-box {
-    flex: 1;
+    display: flex;
+    justify-content: center;
     overflow-y: auto;
     height: 100%;
+    width: 100%;
     box-sizing: border-box;
-    display: flex;
     padding: 20px;
     background-color: #FFFFFF;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
@@ -118,17 +106,46 @@ main {
     border-radius: 5px;
 }
 
-.content-box p {
-    margin: 10px 0;
+.content-box {
+    background-color: #FFFFFF;
+    color: #000000;
+    border-radius: 5px;
+    padding: 20px;
+    overflow-y: auto;
+    height: 100%;
+    box-sizing: border-box;
+    flex: 2;
+}
+
+.utility-box {
+    flex: 1;
+    width: 20%;
+    height: 100%;
+    overflow-y: hidden;
+    background-color: #eeeeee;
+    border-radius: 5px;
+    margin-left: 20px;
+    padding: 10px;
+    box-sizing: border-box;
+}
+
+#settings-parent {
+    flex: 2;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
 }
 
 .form {
+    flex: 1;
+    min-width: fit-content;
+    max-width: 500px;
+    box-sizing: border-box;
     background-color: #fff;
     padding: 20px;
     border-radius: 8px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-    width: 300px;
-    text-align: center; /* Center the text inputs */
+    text-align: center;
 }
 
 .form label {
