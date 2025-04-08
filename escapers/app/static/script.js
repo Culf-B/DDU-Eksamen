@@ -60,10 +60,18 @@ async function send_form(form) {
         });
         if (!response.ok) {
             throw new Error(`Response status: ${response.status}`);
+
         } else {
             if (formCatagory == "general") {
                 set_name_selected(profile.task_name_prefix + " " + selectedTask.id.toString() + ": " + Object.fromEntries(formData).name);
             }
+            // Show content saved popup
+            const popup = document.getElementById('popup');
+            popup.classList.add('show');
+
+            setTimeout(function() {
+                popup.classList.remove('show');
+            }, 1000);
         }
     } catch (e) {
         console.error(e);
