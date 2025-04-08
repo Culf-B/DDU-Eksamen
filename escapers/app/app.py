@@ -41,7 +41,14 @@ def index():
     
     css_url = url_for('static', filename = 'style.css')
     script_url = url_for('static', filename = 'script.js')
-    return render_template('index.html', css_url = css_url, script_url = script_url, selected_index = selected)
+    overview_image_url = url_for('static', filename = 'overview.png')
+    return render_template(
+        'index.html',
+        css_url = css_url,
+        script_url = script_url,
+        selected_index = selected,
+        overview_image_url = overview_image_url    
+    )
 
 @app.route('/api/profile/<profile>', methods = ['GET'])
 def get_profile(profile):
@@ -95,8 +102,11 @@ def save_profile():
     
 @app.errorhandler(404)
 def page_not_found(e):
-    # note that we set the 404 status explicitly
     return error_page("404: Siden blev ikke fundet"), 404
+
+@app.errorhandler(500)
+def page_not_found(e):
+    return error_page("500: Der skete en fejl på serveren"), 500
 
 def error_page(message):
     css_url = url_for('static', filename = 'style_errorpage.css')
