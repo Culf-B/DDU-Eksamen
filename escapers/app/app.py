@@ -160,8 +160,9 @@ def get_settings_catagory(catagory):
 
 @app.route('/api/saveprofile', methods = ['POST'])
 def save_profile():
-    try:
+    #try:
         formDataRecieved = request.get_json()
+        print(formDataRecieved)
 
         # Get profile in its current form
         currentProfile = profileManager.getProfile(formDataRecieved["profile"])
@@ -174,13 +175,21 @@ def save_profile():
             raise Exception(f'Task with id {formDataRecieved["task"]} does not exist!', 404)
 
         # Update catagory
+        # This code is a crime agains the python interpreter D:
+        isDict = False
         catagorySettings = currentProfile["tasks"][index]["settings"][formDataRecieved["catagory"]]
         for key, value in formDataRecieved["form"].items():
-            if catagorySettings[key]:
-                # Storage depends on type
-                if catagorySettings[key]["type"] == "text":
+            if key in catagorySettings:
+                if catagorySettings[key]["type"] == "text":   
                     catagorySettings[key]["value"] = value
-                # Other types is not implemented yet
+            else:
+                for setting, setting_value in catagorySettings.items():
+                    if setting_value["type"] == "dict":
+                        isDict = True
+                        catagorySettings[setting]["value"] = formDataRecieved["form"]
+                        break
+            if isDict:
+                break      
 
         # Add updated catagory to currentProfile
         currentProfile["tasks"][index]["settings"][formDataRecieved["catagory"]] = catagorySettings
@@ -190,12 +199,12 @@ def save_profile():
 
         return {'message': 'Indstillinger gemt!'}, 200
     
-    except Exception as e:
-        print(f'Encountered an error: {e.args[0]}')
-        if len(e.args) > 1:
-            return {'message': f'Fejl! {e.args[0]}'}, e.args[1]
-        else:
-            return {'message': 'Fejl! Indstillinger ikke gemt!'}, 500
+        '''except Exception as e:
+            print(f'Encountered an error: {e.args[0]}')
+            if len(e.args) > 1:
+                return {'message': f'Fejl! {e.args[0]}'}, e.args[1]
+            else:
+                return {'message': 'Fejl! Indstillinger ikke gemt!'}, 500'''
     
 @app.route('/api/update_device/<device_id>')
 def handleDeviceUpdate(device_id):

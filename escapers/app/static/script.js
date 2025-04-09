@@ -44,6 +44,18 @@ async function send_setting_catagory_request(catagoryName) {
 
 async function send_form(form) {
     let formData = new FormData(form);
+    const keys = formData.getAll('keys[]');
+    const values = formData.getAll('values[]');
+    let data = {};
+
+    if (keys.length > 0) {
+        keys.forEach((key, index) => {
+            data[key] = values[index]; // You can handle duplicates here if needed
+        });
+    } else {
+        data = Object.fromEntries(formData);
+    }
+
     const formCatagory = form.getAttribute("data-catagory");
     try {
         const response = await fetch("/api/saveprofile", {
@@ -52,7 +64,7 @@ async function send_form(form) {
                 'Content-Type': 'application/json'
             },
             body: JSON.stringify({
-                "form": Object.fromEntries(formData),
+                "form": data,
                 "catagory": formCatagory,
                 "task": selectedTask.id,
                 "profile": profileName
@@ -123,6 +135,18 @@ async function main() {
             settingsParent.innerHTML = settingsParent.innerHTML + htmlRecieved;
         }
     }
+    // Execute attached scripts (yes I know this would probably be bad security wise but we are only running this locally)
+    const scripts = settingsParent.querySelectorAll('script');
+    scripts.forEach(script => {
+        const newScript = document.createElement('script');
+        if (script.src) {
+            newScript.src = script.src;
+        } else {
+            newScript.textContent = script.textContent;
+        }
+        document.body.appendChild(newScript); // append to run
+    });
+
     // Add event listeners to all settings forms on submit for custom submit event
     const allForms = document.querySelectorAll('.form');
     for (i = 0; i < allForms.length; i ++) {
@@ -138,6 +162,12 @@ async function main() {
             // Loading depends on type
             if (content.type == "text") {
                 document.getElementById(content.elementID).value = content.value;
+            } else if (content.type == "dict") {
+                for (const [key, value] of Object.entries(content.value)) {
+                    let keyValuePairElement = addKeyValuePair(content.elementID);
+                    keyValuePairElement[0].value = key;
+                    keyValuePairElement[1].value = value;
+                }
             }
         }
     }

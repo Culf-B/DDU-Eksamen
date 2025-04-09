@@ -1,7 +1,40 @@
 <form class = "form" data-catagory = "inputmaskine">
-    <h3>
-        Den universelle inputmaskine
-    </h3>
-    <br>
-    <input type="submit" value="Gem">
+    <h3>Den universelle inputmaskine</h3>
+    <div id="inputmaskine_keyValue"></div>
+    <button type="button" onclick="addKeyValuePair('inputmaskine_keyValue')">Add Key-Value Pair</button>
+    <br><br>
+    <button type="submit">Submit</button>
+    
+    <script>
+        function addKeyValuePair(keyvalueID) {
+            const container = document.getElementById(keyvalueID);
+            const pairDiv = document.createElement('div');
+            pairDiv.className = 'key-value-pair';
+
+            const keyInput = document.createElement('input');
+            keyInput.type = 'text';
+            keyInput.placeholder = 'Key';
+            keyInput.name = 'keys[]'; // Keep same name for array-like submission
+
+            const valueInput = document.createElement('input');
+            valueInput.type = 'text';
+            valueInput.placeholder = 'Value';
+            valueInput.name = 'values[]'; // Also keep same name
+
+            const removeButton = document.createElement('button');
+            removeButton.type = 'button';
+            removeButton.textContent = 'Remove';
+            removeButton.onclick = function () {
+                container.removeChild(pairDiv);
+            };
+
+            pairDiv.appendChild(keyInput);
+            pairDiv.appendChild(valueInput);
+            pairDiv.appendChild(removeButton);
+
+            container.appendChild(pairDiv);
+            return [keyInput, valueInput];
+        }
+
+    </script>    
 </form>

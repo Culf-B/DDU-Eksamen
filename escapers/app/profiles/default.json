@@ -13,11 +13,10 @@
                 },
                 "inputmaskine": {
                     "correct_input": {
-                        "elementID": "finput",
+                        "elementID": "inputmaskine_keyValue",
                         "type": "dict",
                         "value": {
-                            "1": 0.5,
-                            "2": 0.3
+                            "Er": "grim"
                         }
                     }
                 }
