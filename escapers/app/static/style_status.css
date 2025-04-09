@@ -53,20 +53,41 @@ main {
     display: block;
     padding: 10px;
     border-radius: 5px;
+}
+.task-complete {
     transition: background-color 0.3s;
     background: #3f9142;
 }
-
-.scrollable-box a#selected {
+.task-complete p {
+    color: #FFFFFF;
+    padding: 10px;
+}
+.task-complete:hover {
     background: #4CAF50;
 }
 
-.scrollable-box a:hover#selected {
-    background-color: #4CAF50;
+.task-open {
+    transition: background-color 0.3s;
+    background: #c1b52b;
+}
+.task-open p {
+    color: #FFFFFF;
+    padding: 10px;
+}
+.task-open:hover {
+    background: #e0dd29;
 }
 
-.scrollable-box a:hover {
-    background: #4CAF50;
+.task-locked {
+    transition: background-color 0.3s;
+    background: #913f3f;
+}
+.task-locked p {
+    color: #FFFFFF;
+    padding: 10px;
+}
+.task-locked:hover {
+    background: #c93d3d;
 }
 
 .selector-list {
@@ -124,13 +145,7 @@ main {
     align-items: center;
 }
 
-.utility-box img {
-    width: 25%;
-    margin-bottom: 10px;
-}
-
-.utility-box h2, 
-.utility-box h3 {
+.utility-box h2 {
     text-align: left;
     width: 100%;
     margin: 5px 0;
@@ -138,83 +153,34 @@ main {
 }
 
 
-#settings-parent {
+#controls {
     flex: 2;
     display: flex;
     flex-wrap: wrap;
     gap: 20px;
 }
 
-.form {
-    flex: 1;
-    min-width: fit-content;
-    max-width: 500px;
+#controls button {
+    flex: 1 1 100px;
+    min-width: 50px;
+    max-width: 100px;
     box-sizing: border-box;
     background-color: #fff;
-    padding: 20px;
+    padding: 10px;
     border-radius: 8px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
     text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
 }
 
-.form label {
-    display: block;
-    margin-bottom: 8px;
-    font-weight: bold;
+#controls button img {
+    max-width: 100%;
+    height: auto;
 }
 
-.form input[type="text"] {
-    width: 80%; /* Adjust the width to center the inputs */
-    padding: 10px;
-    margin-bottom: 20px;
-    border: 1px solid #ccc;
-    border-radius: 4px;
-    font-size: 16px;
-    display: block;
-    margin-left: auto;
-    margin-right: auto;
-    background-color: #defae2;
-}
-
-.form input[type="submit"] {
-    width: 80%; /* Adjust the width to center the inputs */
-    padding: 10px;
-    background-color: #3f9142;
-    border: none;
-    border-radius: 4px;
-    color: #fff;
-    font-size: 16px;
-    cursor: pointer;
-    display: block;
-    margin-left: auto;
-    margin-right: auto;
-    transition: background-color 0.3s;
-}
-
-.form input[type="submit"]:hover {
-    background-color: #4CAF50;
-}
-
-.popup {
-    position: fixed;
-    bottom: 15px;
-    right: 15px;
-    padding: 20px;
-    background-color: #4CAF50;
-    color: white;
-    border-radius: 30px;
-    box-shadow: 0 0 15px rgba(0, 0, 0, 0.2);
-    font-size: 20px;
-    opacity: 0;
-    transition: opacity 0.5s ease-in-out;
-    z-index: 1000;
-    pointer-events: none;
-}
-
-.popup.show {
-    opacity: 1;
-    pointer-events: auto;
-}
 
 .navbar {
     background-color: #4CAF50;

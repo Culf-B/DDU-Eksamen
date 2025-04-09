@@ -50,6 +50,20 @@ def index():
         overview_image_url = overview_image_url    
     )
 
+@app.route('/status', methods = ['GET'])
+def status():
+    css_url = url_for('static', filename = 'style_status.css')
+    breakpng_url = url_for('static', filename = 'break.png')
+    pausepng_url = url_for('static', filename = 'pause.png')
+    startpng_url = url_for('static', filename = 'start.png')
+    return render_template(
+        'status.html',
+        css_url = css_url,
+        breakpng_url = breakpng_url,
+        startpng_url = startpng_url,
+        pausepng_url = pausepng_url
+    )
+
 @app.route('/api/profile/<profile>', methods = ['GET'])
 def get_profile(profile):
     return profileManager.getProfile(profile)

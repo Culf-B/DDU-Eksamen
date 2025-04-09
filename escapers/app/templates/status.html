@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="da">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Escapers - Status</title>
+    <link rel="stylesheet" href="{{css_url}}">
+</head>
+<body>
+    <header>
+        <h1>Escapers - Status</h1>
+    </header>
+    <nav class="navbar">
+        <ul>
+            <li><a href="/status">Status</a></li>
+            <li><a href="/">Opsætning</a></li>
+        </ul>
+    </nav>
+    <main>
+        <div class = "container-box">
+            <div class="scrollable-box">
+                <h2>Opgavestatus</h2>
+                <div class = "selector-list">
+                    <ul style = "overflow-y: auto;" id = "tasks">
+                        <li class = "task-complete"><a>Opgave 1</a></li>
+                        <li class = "task-complete"><a>Opgave 2</a></li>
+                        <li class = "task-open"><a>Opgave 3</a></li>
+                        <li class = "task-open"><a>Opgave 4</a></li>
+                        <li class = "task-locked"><a>Opgave 5</a></li>
+                        <li class = "task-locked"><a>Opgave 6</a></li>
+                    </ul>
+                    <ul>
+                        <li><p><strong>Farvesymbolik:</strong></p></li>
+                        <li class = "task-complete"><p>Færdig opgave</p></li>
+                        <li class = "task-open"><p>Åben opgave</p></li>
+                        <li class = "task-locked"><p>Låst opgave</p></li>
+                    </ul>
+                </div>
+                
+            </div>
+            <div class="content-box">
+                <h2 id = "selected-taskname-header">
+                    Styring
+                </h2>
+                <div style = "display: flex;">
+                    <div id = "controls">
+                        <button>Begynd<img src = {{startpng_url}}></button>
+                        <button>Pause<img src = {{pausepng_url}}></button>
+                        <button>Afbryd<img src = {{breakpng_url}}></button>
+                    </div>
+                    <div class="utility-box">
+                        <h2>Tid</h2>
+                        <p>00:00:00</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+</body>
+</html>
+    
