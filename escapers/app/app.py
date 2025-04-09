@@ -160,7 +160,7 @@ def get_settings_catagory(catagory):
 
 @app.route('/api/saveprofile', methods = ['POST'])
 def save_profile():
-    #try:
+    try:
         formDataRecieved = request.get_json()
         print(formDataRecieved)
 
@@ -199,12 +199,12 @@ def save_profile():
 
         return {'message': 'Indstillinger gemt!'}, 200
     
-        '''except Exception as e:
-            print(f'Encountered an error: {e.args[0]}')
-            if len(e.args) > 1:
-                return {'message': f'Fejl! {e.args[0]}'}, e.args[1]
-            else:
-                return {'message': 'Fejl! Indstillinger ikke gemt!'}, 500'''
+    except Exception as e:
+        print(f'Encountered an error: {e.args[0]}')
+        if len(e.args) > 1:
+            return {'message': f'Fejl! {e.args[0]}'}, e.args[1]
+        else:
+            return {'message': 'Fejl! Indstillinger ikke gemt!'}, 500
     
 @app.route('/api/update_device/<device_id>')
 def handleDeviceUpdate(device_id):
