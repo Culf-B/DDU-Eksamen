@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Escapers - Status</title>
     <link rel="stylesheet" href="{{css_url}}">
+    <script src="{{status_script}}"></script>
 </head>
 <body>
     <header>
@@ -44,13 +45,13 @@
                 </h2>
                 <div style = "display: flex;">
                     <div id = "controls">
-                        <button>Begynd<img src = {{startpng_url}}></button>
-                        <button>Pause<img src = {{pausepng_url}}></button>
-                        <button>Afbryd<img src = {{breakpng_url}}></button>
+                        <button onclick="beginGame()">Begynd<img src = {{startpng_url}}></button>
+                        <button onclick="pauseGame()">Pause<img src = {{pausepng_url}}></button>
+                        <button onclick="endGame()">Afbryd<img src = {{breakpng_url}}></button>
                     </div>
                     <div class="utility-box">
                         <h2>Tid</h2>
-                        <p>00:00:00</p>
+                        <p id = "timer_paragraph">00:00:00</p>
                     </div>
                 </div>
             </div>

@@ -48,6 +48,8 @@ class Game:
     def start(self):
         self.started = True
         self.last_time_update = time.time()
+
+        self.tasks["1"].openTask()
     
     def pause(self):
         self.paused = True
@@ -67,13 +69,40 @@ class Game:
         self.finaltime = self.totaltime
 
     def updateTask(self, taskID, deviceInputData):
-        if taskID in self.tasks:
-            self.tasks[taskID].updateValue(deviceInputData)
+        if self.started == True and self.paused == False and self.ended == False:
+            if taskID in self.tasks:
+                self.tasks[taskID].updateValue(deviceInputData)
+    
+    def get_status_object(self):
+        if self.started and not self.ended and not self.paused:
+            self.update_total_timer()
+        self.status_object = {
+            "started": self.started,
+            "paused": self.paused,
+            "ended": self.ended,
+            "totaltime": self.totaltime,
+            "finaltime": self.finaltime,
+            "tasks": {}
+        }
+        for ID, task in self.tasks.items():
+            self.status_object["tasks"][f'{self.profile["task_name_prefix"]} {ID}: {task.name}'] = task.getStatus()
+        
+        return self.status_object
+
 
 class Task:
-    def __init__(self, taskProfileData, ID):
+    def __init__(self, taskProfileData, ID, isOpen = False):
         self.taskProfileData = taskProfileData
         self.ID = ID
+        self.open = isOpen
+        self.solved = False
+        self.name = self.taskProfileData["settings"]["general"]["name"]["value"]
+
+    def openTask(self):
+        self.open = True
+
+    def getStatus(self):
+        return {"open": self.open, "solved": self.solved}
 
 class InputMaskine(Task):
     def __init__(self, taskProfileData):
@@ -83,9 +112,10 @@ class InputMaskine(Task):
         self.solved = False
 
     def updateValue(self, deviceInputData):
-        self.tempKey, self.tempValue = self.parseRecievedData(deviceInputData)
-        self.dataDict[self.tempKey] = self.tempValue
-        self.validateAnswer()
+        if self.open:
+            self.tempKey, self.tempValue = self.parseRecievedData(deviceInputData)
+            self.dataDict[self.tempKey] = self.tempValue
+            self.validateAnswer()
 
     def parseRecievedData(self, recievedData):
         parsedData = recievedData.split(",")
@@ -136,12 +166,14 @@ def index():
 @app.route('/status', methods = ['GET'])
 def status():
     css_url = url_for('static', filename = 'style_status.css')
+    script_url = url_for('static', filename = 'statusScript.js')
     breakpng_url = url_for('static', filename = 'break.png')
     pausepng_url = url_for('static', filename = 'pause.png')
     startpng_url = url_for('static', filename = 'start.png')
     return render_template(
         'status.html',
         css_url = css_url,
+        status_script = script_url,
         breakpng_url = breakpng_url,
         startpng_url = startpng_url,
         pausepng_url = pausepng_url
@@ -214,6 +246,38 @@ def handleDeviceUpdate(device_id):
     except Exception as e:
         print(f'An error occured when handling device update: {e}')
         return "Error", 500
+
+@app.route('/api/game_status')
+def game_status():
+    try:
+        return game.get_status_object(), 200
+    except Exception as e:
+        print("An error occured!", e)
+        return "An error occured!", 500
+
+@app.route('/api/update_game_state/<new_state>')
+def update_game_state(new_state):
+    if (new_state == "started"):
+        if game.started == False:
+            game.start()
+        elif game.paused == True and game.ended == False:
+            game.unpause()
+        else:
+            return "Invalid gamestate", 400
+    elif (new_state == "paused"):
+        if game.started == True and game.paused == False and game.ended == False:
+            game.pause()
+        else:
+            return "Invalid gamestate", 400
+    elif (new_state == "ended"):
+        if game.started == True and game.ended == False:
+            game.end()
+        else:
+            return "Invalid gamestate", 400
+    else:
+        return "Gamestate not found", 404
+    return "OK", 200
+    
 
 @app.errorhandler(404)
 def page_not_found(e):
