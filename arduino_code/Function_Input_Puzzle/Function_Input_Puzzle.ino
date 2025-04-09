@@ -9,8 +9,9 @@ WiFiClient client;
 
 const char* ssid = SECRET_SSID;  // Replace with your WiFi SSID
 const char* password = SECRET_PASSWORD;  // Replace with your WiFi password
-const char* server_ip = "10.42.0.1";  // Replace with your server's IP address
+String server_ip = "192.168.42.1";  // Replace with your server's IP address
 const int server_port = 5000;
+String url = "/api/update_device/1?data=";
 
 Encoder myEnc(D5, D6);
 
@@ -161,7 +162,10 @@ void send() {
   stringToSend = stringToSend + ",";
   stringToSend = stringToSend + valueToSend;
 
-  client.println(stringToSend);
+  client.println("GET " + url + stringToSend + "HTTP/1.1");
+  client.println("Connection: close");
+  client.println();
+  client.stop();
 
   indexChosen = false;
   indexToSend = 0;
