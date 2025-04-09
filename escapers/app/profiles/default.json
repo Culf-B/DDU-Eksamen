@@ -11,7 +11,16 @@
                         "value": "Den universelle inputmaskine"
                     }
                 },
-                "inputmaskine": {}
+                "inputmaskine": {
+                    "correct_input": {
+                        "elementID": "finput",
+                        "type": "dict",
+                        "value": {
+                            "1": 0.5,
+                            "2": 0.3
+                        }
+                    }
+                }
             }
         },
         {

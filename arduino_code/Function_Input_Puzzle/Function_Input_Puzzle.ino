@@ -156,8 +156,6 @@ void loop() {
 
 void send() {
   stringToSend = "";
-  stringToSend = stringToSend + controllerID;
-  stringToSend = stringToSend + ",";
   stringToSend = stringToSend + indexToSend;
   stringToSend = stringToSend + ",";
   stringToSend = stringToSend + valueToSend;

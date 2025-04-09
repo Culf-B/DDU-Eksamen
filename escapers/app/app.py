@@ -1,6 +1,7 @@
 from flask import Flask, url_for, render_template, request
 import os
 import json
+import time
 
 class ProfileManager:
     def __init__(self, path):
@@ -27,10 +28,92 @@ class ProfileManager:
         with open(os.path.join(self.path, filename), "w") as f:
             json.dump(jsonData, f, indent = 4)
 
+class Game:
+    def __init__(self, profile, taskIDtoClass):
+        self.started = False
+        self.paused = False
+        self.ended = False
+        self.last_time_update = 0
+        self.totaltime = 0
+        self.finaltime = 0
+
+        self.profile = profile
+        self.taskIDtoClass = taskIDtoClass
+        self.tasks = {}
+
+        for task in profile["tasks"]:
+            if str(task["id"]) in self.taskIDtoClass:
+                self.tasks[str(task["id"])] = self.taskIDtoClass[str(task["id"])](task)
+
+    def start(self):
+        self.started = True
+        self.last_time_update = time.time()
+    
+    def pause(self):
+        self.paused = True
+        self.update_total_timer()
+
+    def unpause(self):
+        self.paused = False
+        self.last_time_update = time.time()        
+
+    def update_total_timer(self):
+        self.totaltime += time.time() - self.last_time_update
+        self.last_time_update = time.time()
+
+    def end(self):
+        self.ended = True
+        self.update_total_timer()
+        self.finaltime = self.totaltime
+
+    def updateTask(self, taskID, deviceInputData):
+        if taskID in self.tasks:
+            self.tasks[taskID].updateValue(deviceInputData)
+
+class Task:
+    def __init__(self, taskProfileData, ID):
+        self.taskProfileData = taskProfileData
+        self.ID = ID
+
+class InputMaskine(Task):
+    def __init__(self, taskProfileData):
+        super().__init__(taskProfileData = taskProfileData, ID = 1)
+        self.correct_answer = taskProfileData["settings"]["inputmaskine"]["correct_input"]["value"]
+        self.dataDict = {}
+        self.solved = False
+
+    def updateValue(self, deviceInputData):
+        self.tempKey, self.tempValue = self.parseRecievedData(deviceInputData)
+        self.dataDict[self.tempKey] = self.tempValue
+        self.validateAnswer()
+
+    def parseRecievedData(self, recievedData):
+        parsedData = recievedData.split(",")
+        return parsedData[0], parsedData[1]
+    
+    def validateAnswer(self):
+        for key, value in self.correct_answer.items():
+            if not key in self.dataDict:
+                return # An answer is missing
+            else:
+                if not self.dataDict[key] == str(value):
+                    return # An answer has the wrong value
+                
+        # Everything is as it should be, the puzzle is solved
+        self.solved = True
+        print("solved")
+
+taskIDtoClass = {
+    "1": InputMaskine
+}
 
 file_path = os.path.abspath(os.path.dirname(__file__))
+
 profileManager = ProfileManager(os.path.join(file_path, "profiles"))
 profileManager.updateValidProfilesList()
+
+game = Game(profileManager.getProfile("default"), taskIDtoClass)
+
 app = Flask(__name__)
 
 @app.route('/', methods = ['GET'])
@@ -114,6 +197,15 @@ def save_profile():
         else:
             return {'message': 'Fejl! Indstillinger ikke gemt!'}, 500
     
+@app.route('/api/update_device/<device_id>')
+def handleDeviceUpdate(device_id):
+    try:
+        game.updateTask(device_id, request.args.get("data"))
+        return "OK", 200
+    except Exception as e:
+        print(f'An error occured when handling device update: {e}')
+        return "Error", 500
+
 @app.errorhandler(404)
 def page_not_found(e):
     return error_page("404: Siden blev ikke fundet"), 404
