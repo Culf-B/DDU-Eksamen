@@ -160,7 +160,7 @@ void send() {
   stringToSend = stringToSend + ",";
   stringToSend = stringToSend + valueToSend;
 
-  client.println("GET " + url + stringToSend + "HTTP/1.1");
+  client.println("GET " + url + stringToSend);
   client.println("Connection: close");
   client.println();
   client.stop();

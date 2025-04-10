@@ -126,7 +126,7 @@ class InputMaskine(Task):
             if not key in self.dataDict:
                 return # An answer is missing
             else:
-                if not self.dataDict[key] == str(value):
+                if not float(self.dataDict[key]) == float(value):
                     return # An answer has the wrong value
                 
         # Everything is as it should be, the puzzle is solved
